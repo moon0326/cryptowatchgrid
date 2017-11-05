@@ -8,4 +8,4 @@ Grid for cryptowat.ch
 
 **Resize**: Mouse over each edge to activate resize handle and drag
 
-**Move**: Mouse over on the top-right corner (where "Create account" text is)
+**Move**: Mouse over on the top-right corner (where "Create account" text is) and drag
