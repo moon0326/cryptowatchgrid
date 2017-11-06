@@ -68,11 +68,40 @@ $('.grid-stack').gridstack({
 var grid = $(".grid-stack").data('gridstack');
 var template = $('#grid-item-template').html();    
 
-function addChart(coin) {
+$('.grid-stack').on('change', function(event, items) {
+    var settings = _.map($('.grid-stack .grid-stack-item:visible'), function (el) {
+        el       = $(el);
+        var node = el.data('_gridstack_node');
+        var items = [
+            el.find('iframe').attr('src').replace('https://cryptowat.ch/',''),
+            node.x,
+            node.y,
+            node.width,
+            node.height
+        ];
+        return items.join('|');
+    });    
+
+    window.location.hash = settings.join(',');
+});
+
+function addChart(coin, x, y, width, height) {
     var rendered = Mustache.render(template, {
         src: "https://cryptowat.ch/" + coin
     });
-    grid.addWidget(rendered);    
+    grid.addWidget(rendered, x, y, width, height);
+}
+
+function restoreFromHash() {
+    if (window.location.hash === '') {
+        return;
+    }
+    var settings = window.location.hash.replace('#', '').split(',');
+    settings.forEach(function(setting) {
+        var data = setting.split('|');
+        // coin name, x, y, width, height
+        addChart(data[0], data[1], data[2], data[3], data[4]);
+    });
 }
 
 $(document).bind('keydown', 'ctrl+o', function() {
@@ -86,7 +115,7 @@ $(document).bind('keydown', 'ctrl+o', function() {
     });
 });
 
-addChart('bitfinex/btcusd');
+restoreFromHash();
 </script>
 </body>
 </html>
