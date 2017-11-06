@@ -79,7 +79,7 @@ $('.grid-stack').on('change', function(event, items) {
             node.width,
             node.height
         ];
-        return items.join('|');
+        return items.join(';');
     });    
 
     window.location.hash = settings.join(',');
@@ -98,7 +98,7 @@ function restoreFromHash() {
     }
     var settings = window.location.hash.replace('#', '').split(',');
     settings.forEach(function(setting) {
-        var data = setting.split('|');
+        var data = setting.split(';');
         // coin name, x, y, width, height
         addChart(data[0], data[1], data[2], data[3], data[4]);
     });
